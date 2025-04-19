@@ -1,0 +1,34 @@
+#0 touch .hello_there
+
+#1 chmod -w .hello_there 
+
+#2 ./riddle | ./part2
+
+#3 ANSWER=42 ./riddle
+
+#4 mkfifo magic_mirror
+
+#5 ./part5
+
+#6 ./part6
+
+#7 ln .hello_there .hey_there
+
+#8 ./part8
+
+#9 ./part9
+
+#10 /proc/[pid]/map_files/...
+
+#11 same
+
+#12 pause riddle with SIGSTOP, change char at address in /proc/[pid]/map_files/... with
+#   sudo dd of= "mapping_addr"  bs=1 seek=111 count=1 
+
+#13 truncate -s 32768 .hello_there
+
+#14 sudo cat set_pid /proc/sys/kernel/ns_last_pid && strace ./riddle
+
+#15 gcc -fPIC -shared -o tier2.so tier2.c
+
+#16 ./part16

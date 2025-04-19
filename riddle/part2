@@ -1,0 +1,9 @@
+#!/bin/bash
+id=$(pgrep riddle)
+if [ -n "$id" ]; then 
+	kill -SIGCONT $id
+	echo "Resumed process with pid $id"
+else
+	echo "Process not found"
+fi
+

@@ -1,0 +1,4 @@
+#!/bin/bash
+for i in $(seq -w 0 10); do  truncate -s 1G "bf$i"; done
+for i in $(seq -w 0 10); do echo "hhh" >> bf$i; done
+/home/ubuntu/riddle/riddle

@@ -1,0 +1,47 @@
+Challenge 0 : touch .hello_world (Just the file .hello_world missing).
+Challenge 1 : chmod 444 .hello_there (Make file read-only for all users).
+Challenge 2 : OUTPUT=$(ps -t 1 | pgrep -f riddle) kill -SIGCONT $OUTPUT (The process was waiting for a SIGCONT to
+	      continue the execution).
+Challenge 3 : Process was accessing env variable ANSWER and was looking for the answer to life,the universe and
+	      everything.So we put 42 into ANSWER (export ANSWER=42).
+Challenge 4 : The process was looking to write into a fifo structure (file) named magic_mirror,so we make one for
+	      it (mkfifo magic_mirror).	
+Challenge 5 : Process wanted to write to file descriptor 99 so it should be assigned to some file.
+	      One solution is to duplicate stdin (exec 99<&0).Obviously we could make a new file and
+	      assign fd 99 to it.Would be just as well.
+Challenge 6 : 4 child processes where created.In pairs they wanted to comunicate with one another.What they were
+	      asking for where two anonymous pipes.However we had to duplicate the read ends into fds 33,53 and 
+	      the write ends into fds 34,54 because the children wanted those particular fds to be the ends of 
+              each pipe.
+Challenge 7 : Process was trying to access a file called .hey_there,so we had to create it.Moreover though it
+              expected .hey_there to be a hard link of previously created .hello_there.So we made it.
+	      ln .hello_there .hey_there
+Challenge 8 : The process was expecting to find files of size atleast 1GB named bf00 through to bf09.
+              We used base64 /dev/urandom | head -c 1073741830 > bf0$i.
+	      urandom produces random numbers to feed into the file.We take 1073741830 bytes from urandom
+	      each time and create a file bf0x with 1GB (+a little more) of random data in it.
+Challenge 9 : The process was trying to send a string to a specific port through a socket.What we had to do
+	      is create the socket at the specific port then interpret the string (which asked us to do an addition)
+	      ,calcualte the addition and through the same socket send back the answer to the riddle process.
+Challenge 10,11 : The process allocated some memory and stored hexadcimal numbers in the addresses that it reserved
+		  We had to go through /proc/<riddle pid>/map_files,find the mapping to the address in question
+		  and then with elevated priviliges reveal its content (sudo cat ...).Finally copy the hexadecimal
+		  number and give it as input to the riddle process.
+Challenge 12 : The process wanted us to place a number in a specific memory address of its virtual memory space.
+	       However the time was not enough to do it manually so we paused the process with kill -SIGSTOP <pid>
+	       Then we went into /proc/<pid>/map_files and found the mapping that started with the same numbers 
+	       as the address we wanted.Then we had to manipulate the byte at the offset of the specific address 
+	       and write to it the character that the process asked for.We used 
+	       sudo dd of= "...-..." bs=1 seek=111 count=1
+Challenge 13 : The process allocates some memory and then truncates it to half its size meaning the rest is now freed.
+	       Then it tries to access some address in the 2nd half and obviously fails since it was freed and the os
+	       does not let it access it giving it a bus error.We only had to reinstate the full size of the allocated
+               memory like this : truncate -s 32768 .hello_there.
+Challenge 14 : Basically the program asks us spawn a process running it giving it a pid of its choosing.We can do this
+	       by modifying the file /proc/sys/kernel/ns_last_pid which stores the last given pid to a process by the os.
+	       Then it is a matter of forking and executing the riddle executable.The fork system call will consult
+	       /proc/sys/kernel/ns_last_pid to get the next pid and will give to the newly created child the next one.
+Challenge 15 : The process was expecting a shared library file named tier2.so containing the symbol setup_tier2.
+	       We just created a void function setup_tier2 in a c file and then compiled it to a shared library object
+	       via gcc -shared -o tier2.so -fPIC tier2.c.
+
